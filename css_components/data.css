@@ -1,0 +1,9 @@
+#data-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    width: max-content;
+    gap: 40px;
+    line-height: 1;
+}
