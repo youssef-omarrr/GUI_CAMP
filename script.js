@@ -1,8 +1,19 @@
-function loadComponent(path, target, scriptPath, callback) {
+function loadComponent(path, target, scriptPath, cssPath, callback) {
     $(target).load(path, function (response, status, xhr) {
         if (status === "error") {
             console.log("Error loading " + path + ": " + xhr.status + " " + xhr.statusText);
-        } else {
+        } 
+        
+        else {
+            // Load CSS if it hasn't been loaded already
+            if (!$(`link[href="${cssPath}"]`).length) {
+                let link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = cssPath;
+                document.head.appendChild(link);
+            }
+
+            // Load JS script
             let script = document.createElement("script");
             script.src = scriptPath;
             script.onload = callback; // Run callback after script loads
@@ -23,11 +34,24 @@ $(document).ready(function () {
         }
     }
 
-    loadComponent('html_components/status.html', '#status-container', 'js_components/status.js', componentLoaded);
-    loadComponent('html_components/controls.html', '#controls-container', 'js_components/controls.js', componentLoaded);
-    loadComponent('html_components/camera.html', '#camera-container', 'js_components/camera.js', componentLoaded);
-    loadComponent('html_components/data.html', '#data-container', 'js_components/data.js', componentLoaded);
+    // load components
+    loadComponent('html_components/status.html', '#status-container', 
+        'js_components/status.js', 'css_components/status.css', componentLoaded);
+
+    loadComponent('html_components/controls.html', '#controls-container', 
+        'js_components/controls.js', 'css_components/controls.css', componentLoaded);
+
+    loadComponent('html_components/camera.html', '#camera-container', 
+        'js_components/camera.js', 'css_components/camera.css', componentLoaded);
+
+    loadComponent('html_components/data.html', '#data-container', 
+        'js_components/data.js', 'css_components/data.css', componentLoaded);
 });
+
+
+
+
+/////////////////////       E-BUTTON         ///////////////////////
 
 function initializeApplication() {
     console.log("Initializing app...");
