@@ -107,7 +107,7 @@ function startSpeedChange(direction) {
                 break;
         }
         console.log(`Speed: ${speed}`);
-    }, 100);
+    }, 50);
 }
 
 // func to stop speed change
