@@ -1,4 +1,8 @@
+
 let container = document.querySelector("#controls-container");
+if (!container) {
+    console.error("Error: #controls-container not found!");
+}
 
 ///////////////  INITS  ///////////////////////
 let upHead = "\u02C4";    // ˄
@@ -46,8 +50,8 @@ function activateButton(selector) {
 }
 
 // Keybinds
+let direction = null;
 document.addEventListener("keydown", function (event) {
-    let direction = null;
 
     switch (event.key.toLowerCase()) {
         case "arrowup":
@@ -80,12 +84,20 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-// remove active class when key is released
-document.addEventListener("keyup", function (event) {
-    stopSpeedChange();
+// remove active class when key is released or mouse leaves the button
+function stop_change(){
+    clearInterval(speedInterval);
     let activeButtons = document.querySelectorAll(".active");
     activeButtons.forEach(button => button.classList.remove("active"));
+}
+document.addEventListener("keyup", function (event) {
+    direction = null;
+    stop_change()
 });
+document.addEventListener("mouseup", function (event) {
+    stop_change()
+});
+
 
 
 // func to start changing speed
@@ -96,23 +108,18 @@ function startSpeedChange(direction) {
     speedInterval = setInterval(() => {
         switch (direction) {
             case "up":
-                speed += 10;
+                speed += 0.5;
                 break;
             case "down":
-                speed -= 10;
+                speed -= 0.5;
                 break;
             case "left":
             case "right":
-                speed += 5;
+                speed += 0.25;
                 break;
         }
         console.log(`Speed: ${speed}`);
-    }, 50);
-}
-
-// func to stop speed change
-function stopSpeedChange() {
-    clearInterval(speedInterval);
+    }, 20);
 }
 
 
@@ -123,10 +130,10 @@ Object.keys(buttonElements).forEach(direction => {
         startSpeedChange(direction);
     });
 
-    buttonElements[direction].addEventListener("mouseup", stopSpeedChange);
-    buttonElements[direction].addEventListener("mouseleave", stopSpeedChange);
+    buttonElements[direction].addEventListener("mouseup", stop_change);
+    buttonElements[direction].addEventListener("mouseleave", stop_change);
     buttonElements[direction].addEventListener("touchstart", function () {
         startSpeedChange(direction);
     });
-    buttonElements[direction].addEventListener("touchend", stopSpeedChange);
+    buttonElements[direction].addEventListener("touchend", stop_change);
 });

@@ -54,4 +54,4 @@ async function fetchTemperature() {
     }
 }
 fetchTemperature();
-setInterval(fetchTemperature, 60000); // Update temperature every 1 minute
+setInterval(fetchTemperature, 60000*5); // Update temperature every 5 minute
