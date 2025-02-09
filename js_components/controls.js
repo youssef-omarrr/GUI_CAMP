@@ -130,7 +130,3 @@ Object.keys(buttonElements).forEach(direction => {
     });
     buttonElements[direction].addEventListener("touchend", stopSpeedChange);
 });
-
-if (emergencyActivated){
-    speed = 0;
-}

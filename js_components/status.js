@@ -10,6 +10,8 @@ let off_text = "color: var(--offline);";
 status_button.addEventListener("click", function () {
     if (status_button.innerText === "OFF") {
         emergencyActivated = false;
+        speed = 0;
+        
         console.log("ON");
         status_button.innerText = "ON";
         stat.innerText = "●ONLINE";
